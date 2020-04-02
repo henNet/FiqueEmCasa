@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/buttonCadastrar"
+        android:id="@+id/buttonCadastrarForm"
         android:layout_width="165dp"
         android:layout_height="102dp"
         android:background="@drawable/btn_rounded"
