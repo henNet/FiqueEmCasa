@@ -8,10 +8,11 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCadastrar"
         android:layout_width="165dp"
         android:layout_height="102dp"
         android:background="@drawable/btn_rounded"
+        android:onClick="cadastrar"
         android:text="Cadastrar"
         android:textColor="#000000"
         android:textSize="18sp"
