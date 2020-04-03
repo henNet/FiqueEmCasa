@@ -1,15 +1,20 @@
 package com.example.fiqueemcasa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Empresa {
 
     private String name;
     private String adress;
-    private String type;
+    private List<String> type;
 
     /* Obrigatorio ter um construtor padrão sem parametros */
-    public Empresa(){}
+    public Empresa(){
+        type = new ArrayList<String>();
+    }
 
-    public Empresa(String name, String end, String type){
+    public Empresa(String name, String end, List<String> type){
         this.name = name;
         this.adress = end;
         this.type = type;
@@ -23,7 +28,7 @@ public class Empresa {
         return adress;
     }
 
-    public String getType() {
+    public List<String> getType() {
         return type;
     }
 
@@ -36,6 +41,6 @@ public class Empresa {
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.type.add(type);
     }
 }

@@ -2,10 +2,12 @@ package com.example.fiqueemcasa;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseError;
@@ -16,9 +18,11 @@ public class AddDataInFB extends AppCompatActivity {
 
     /* Para a conexao do banco */
     FirebaseDatabase database;
-    DatabaseReference myRef, dataType;
-    private static final String dataBaseName = "empresas";
-    private static final String dataTypeName = "servicos";
+    DatabaseReference dataBaseCompanys, dataBaseServices;
+    private static final String dataBaseCompanysName = "empresas";
+    private static final String dataBaseServicesName = "servicos";
+    private static final String typeServiceComida = "comida";
+    private static final String typeServiceGas = "gas";
 
     /* Elementos gráficos */
     EditText name, adress;
@@ -32,15 +36,14 @@ public class AddDataInFB extends AppCompatActivity {
 
         /* Faz a conexao com o bando e pega uma referencia da base de dados criada */
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(dataBaseName);
-        dataType = database.getReference(dataTypeName);
+        dataBaseCompanys = database.getReference(dataBaseCompanysName);
+        dataBaseServices = database.getReference(dataBaseServicesName);
 
+        /* Pega a referência dos elementos da tela */
         name = (EditText) findViewById(R.id.editTextNome);
         adress = (EditText) findViewById(R.id.editTextEndereco);
-
         comida = (CheckBox) findViewById(R.id.checkBoxComida);
         gas = (CheckBox) findViewById(R.id.checkBoxGas);
-
         btnAdd = (Button)findViewById(R.id.buttonCadastrarForm);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -51,32 +54,41 @@ public class AddDataInFB extends AppCompatActivity {
 
                 emp.setName(name.getText().toString());
                 emp.setAdress(adress.getText().toString());
-                emp.setType("comida");
+                if(comida.isChecked())
+                    emp.setType(typeServiceComida);
+
+                if(gas.isChecked())
+                    emp.setType(typeServiceGas);
 
                 addToDataBase(emp);
             }
         });
     }
 
+    /* Adiniciona Empresas e seus servicos nas respectivas bases de dados */
     public void addToDataBase(final Empresa dados)
     {
         /* Dessa forma eh adicionado no banco uma chave primária */
-        myRef.push().setValue(dados, new DatabaseReference.CompletionListener() {
+        dataBaseCompanys.push().setValue(dados, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 //Problem with saving the data
                 if (databaseError != null) {
-                    toastMessage("PUTS");
+                    toastMessage("ERRO ao cadastrar!");
                 } else {
-                    //Data uploaded successfully on the server
-                    toastMessage("DEU CEEEERRTTTOOO");
-                    dataType.child(dados.getType()).child(databaseReference.getKey()).setValue(dados.getName());
+                    //Adiciona o ID e o nome da empresa no banco de servicos
+                    for(String type : dados.getType()) {
+                        dataBaseServices.child(type).child(databaseReference.getKey()).setValue(dados.getName());
+                    }
+                    toastMessage("Cadastrado com Sucesso!");
                 }
             }
         });
     }
 
     private void toastMessage(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }
