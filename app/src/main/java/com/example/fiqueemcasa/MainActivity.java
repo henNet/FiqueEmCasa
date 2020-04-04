@@ -21,6 +21,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void visualizar(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, ViewDataFromFB.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onStart() {
         super.onStart();

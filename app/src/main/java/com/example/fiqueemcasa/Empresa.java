@@ -7,11 +7,11 @@ public class Empresa {
 
     private String name;
     private String adress;
-    private List<String> type;
+    private List<String> type = new ArrayList<String>();
 
     /* Obrigatorio ter um construtor padrão sem parametros */
     public Empresa(){
-        type = new ArrayList<String>();
+        //type = new ArrayList<String>();
     }
 
     public Empresa(String name, String end, List<String> type){
@@ -40,7 +40,12 @@ public class Empresa {
         this.adress = adress;
     }
 
-    public void setType(String type) {
-        this.type.add(type);
+    public void setType(List<String> type) {
+        this.type = type;
+    }
+
+    public void addType(String t)
+    {
+        this.type.add(t);
     }
 }

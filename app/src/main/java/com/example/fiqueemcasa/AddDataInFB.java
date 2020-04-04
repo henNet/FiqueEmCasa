@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseError;
@@ -55,10 +54,10 @@ public class AddDataInFB extends AppCompatActivity {
                 emp.setName(name.getText().toString());
                 emp.setAdress(adress.getText().toString());
                 if(comida.isChecked())
-                    emp.setType(typeServiceComida);
+                    emp.addType(typeServiceComida);
 
                 if(gas.isChecked())
-                    emp.setType(typeServiceGas);
+                    emp.addType(typeServiceGas);
 
                 addToDataBase(emp);
             }
